@@ -1,3 +1,3 @@
 clear
 
-php -f request.php
+php -f request.php "$1"
