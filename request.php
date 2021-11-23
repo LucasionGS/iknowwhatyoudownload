@@ -33,9 +33,9 @@ _____________________________________________________________________________
 
 // Getting IP address from user
 if ($argv[1] != "") {
-	$ip = trim($argv[1]);
+  $ip = trim($argv[1]);
 } else {
-	$ip = trim(readline("Enter IP to check downloads: "));
+  $ip = trim(readline("Enter IP to check downloads: "));
 }
 
 echo "
@@ -57,41 +57,41 @@ $server_output = json_decode(curl_exec($ch));
 
 // If we don't have any errors
 if ($server_output) {
-	if (!empty($server_output->contents)) {
-		$server_output->hasPorno = ($server_output->hasPorno) ? 'True' : 'False';
-		$server_output->hasChildPorno = ($server_output->hasChildPorno) ? 'True' : 'False';
-		echo PHP_EOL . Color::set("Information", "green+bold") . PHP_EOL;
-		echo Color::set("ISP: ", "white+bold") . $server_output->isp . PHP_EOL;
-		echo Color::set("Has porn: ", "white+bold") . $server_output->hasPorno . PHP_EOL;
-		echo Color::set("Has child porn: ", "white+bold") . $server_output->hasChildPorno . PHP_EOL . PHP_EOL;
+  if (!empty($server_output->contents)) {
+    $server_output->hasPorno = ($server_output->hasPorno) ? 'True' : 'False';
+    $server_output->hasChildPorno = ($server_output->hasChildPorno) ? 'True' : 'False';
+    echo PHP_EOL . Color::set("Information", "green+bold") . PHP_EOL;
+    echo Color::set("ISP: ", "white+bold") . $server_output->isp . PHP_EOL;
+    echo Color::set("Has porn: ", "white+bold") . $server_output->hasPorno . PHP_EOL;
+    echo Color::set("Has child porn: ", "white+bold") . $server_output->hasChildPorno . PHP_EOL . PHP_EOL;
 
-		if (isset($server_output->geoData)) {
-			echo Color::set("GEODATA", "green+bold") . PHP_EOL;
-			echo Color::set("Country: ", "white+bold") . $server_output->geoData->country . PHP_EOL;
-			echo Color::set("Latitude: ", "white+bold") . $server_output->geoData->latitude . PHP_EOL;
-			echo Color::set("Logitude: ", "white+bold") . $server_output->geoData->longitude . PHP_EOL . PHP_EOL;
-		}
+    if (isset($server_output->geoData)) {
+      echo Color::set("GEODATA", "green+bold") . PHP_EOL;
+      echo Color::set("Country: ", "white+bold") . $server_output->geoData->country . PHP_EOL;
+      echo Color::set("Latitude: ", "white+bold") . $server_output->geoData->latitude . PHP_EOL;
+      echo Color::set("Logitude: ", "white+bold") . $server_output->geoData->longitude . PHP_EOL . PHP_EOL;
+    }
 
-		echo Color::set("Downloads", "green+bold") . PHP_EOL;
-		$mask = "|%-8s |%-50s | %-30s | %-10s | %-8s |\n";
-		printf($mask, 'Category', 'Name', 'Date', 'Size', 'Child porn');
-		foreach ($server_output->contents as $download) {
-			printf(
-				$mask,
-				$download->category,
-				$download->name,
-				$download->startDate,
-				$download->torrent->size,
-				($download->childPorno) ? 'True' : 'False'
-			);
-		}
-	} else
-		echo Color::set("I: We couldn't find any downloads from this IP address", "blue+bold") . PHP_EOL;
+    echo Color::set("Downloads", "green+bold") . PHP_EOL;
+    $mask = "|%-8s |%-50s | %-30s | %-10s | %-8s |\n";
+    printf($mask, 'Category', 'Name', 'Date', 'Size', 'Child porn');
+    foreach ($server_output->contents as $download) {
+      printf(
+        $mask,
+        $download->category,
+        $download->name,
+        $download->startDate,
+        $download->torrent->size,
+        ($download->childPorno) ? 'True' : 'False'
+      );
+    }
+  } else
+    echo Color::set("I: We couldn't find any downloads from this IP address", "blue+bold") . PHP_EOL;
 }
 
 // If we have errors in the response
 else
-	echo Color::set("E: Something went wrong. ", "red+bold") . PHP_EOL;
+  echo Color::set("E: Something went wrong. ", "red+bold") . PHP_EOL;
 
 curl_close($ch);
 
